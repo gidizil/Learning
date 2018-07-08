@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def gen_sample(instances, features):
     """Generate the X, y sample and the true weights"""
     X = np.random.normal(loc=0.0, scale=4.0, size=[instances, features])
-    bias = np.ones(shape=[10000, 1])
+    bias = np.ones(shape=[instances, 1])
     X = np.column_stack((bias, X))
     true_weights = np.random.chisquare(5, size=[features + 1, 1])
     y_val = X.dot(true_weights)
@@ -45,8 +45,8 @@ def calc_error_rate(sigmoid_vec, y):
     return error_rate
 
 """Now lets run our experiment"""
-instances = 10000
-features = 20
+instances = 15000
+features = 100
 gamma = 0.0001
 min_error_rate = 0.004
 counter = 0
