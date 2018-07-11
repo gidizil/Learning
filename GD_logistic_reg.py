@@ -70,6 +70,7 @@ print('Final Weights:', w)
 plt.plot(error_rate_vec)
 plt.show()
 
+# TODO: generate sample X, y using two clusters where linear shattering of the data is not possible
 
 
 
