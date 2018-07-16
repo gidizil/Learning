@@ -56,4 +56,4 @@ TensorFlow Data Objects:
 2. Variables - values that can be changed - like the weights that require updating every epoch
 3. PlaceHolders - values that we feed to the comp. graph. for our porpuse these are the trainig examples.
                   we assign values to the placeholders one the graph is running.
-""
+"""
