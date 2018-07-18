@@ -208,3 +208,74 @@ with tf.Session() as sess:
     #x, W, z, sigmoid = sess.run(x, )
 
 writer.close()
+#I was able to do that, but more practice and understanding is needed
+
+
+"""Deep Learning With TensorFlow"""
+"""Here we will learn the steps for implementing DNN with tensorflow"""
+
+"""1. Feeding data:"""
+
+y = tf.placeholder(tf.float32)
+x = tf.placeholder(tf.float32)
+
+with tf.Session() as sess:
+        X_data = np.array(np.random.multivariate_normal(mean=np.zeros(5), cov=np.eye(5), size=10))
+        y_data = np.array(np.random.binomial(n=1, p=0.5, size=5))
+        loss = 'some loss function..'
+        sess.run(loss, feed_dict={x: X_data, y: y_data})
+
+"""2. Reading from files: Done when the data is too big"""
+# Option 1 string tensor:
+files = ['file1', 'file2']
+
+# Option2: tensorflow built in method:
+files = tf.train.match_filenames_once("*.jpg")  # produces a list of file relevant file names
+
+# Expansion: File Queue:
+#If we don't want to read all the files at once, only inserting them through the epochs:
+filename_queue = tf.train.string_input_producer(files)  # Creates a FIFO queue of the files from above
+# This function also provides an option to shuffle and set a maximum number of epochs
+
+# 'Reader' is defined and used to read from files from the filename queue. this is an example of .csv files
+reader = tf.TextLineReader()
+key, value = reader.read(filename_queue) #key is file name and value is the actual value
+
+# Decoder: One or more decoder and conversion ops are then used to
+# decode the value string into Tensors that make up the training example:
+record_defaults = [[1], [1], [1]] # How to treat missing values in each columns
+col1, col2, col3 = tf.decode_csv(value, record_defaults=record_defaults)
+
+"""Preloaded data: This is used when the dataset is small and can be loaded fully in the memory. 
+    For this, we can store data either in a constant or variable. While using a variable, 
+    we need to set the trainable flag to False so that the data does not change while training. 
+    As TensorFlow constants:"""
+# Preloaded data as constant
+training_data = ... 
+training_labels = ... 
+with tf.Session as sess: 
+   x_data = tf.Constant(training_data) 
+   y_data = tf.Constant(training_labels) 
+...
+# Preloaded data as Variables
+training_data = 'X data'
+training_labels = 'y data'
+with tf.Session as sess: 
+   data_x = tf.placeholder(dtype=training_data.dtype, shape=training_data.shape) 
+   data_y = tf.placeholder(dtype=training_labels.dtype, shape=training_labels.shape)
+   x_data = tf.Variable(data_x, trainable=False, collections=[]) #I dont know what collections
+   y_data = tf.Variable(data_y, trainable=False, collections=[])
+
+"""4. Defining a model: Here we must describe the graph"""
+"""
+5. Training/Learning: this is the non-lazy part
+with tf.Session as sess: 
+   .... 
+   sess.run(...) 
+   ... 
+"""
+
+"""6. Evaluating. Evaluating the model performance using the 'tf.predict' method on evaluation data"""
+#Note: there are 'Estimator objects'. they are high-level APIs for the model. make it easier to write models
+
+
