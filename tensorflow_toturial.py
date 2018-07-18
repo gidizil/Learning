@@ -192,3 +192,19 @@ writer.close()
 """ In this folder type in the cmd: tensorboard --logdir=graphs and go to the URL provided
 Really nice
 """
+#My try of tensor board
+
+x = tf.Variable(tf.random_normal(shape=[3, 1], mean=0.0, stddev=1.0), name='x_sample')
+W = tf.Variable(tf.random_normal(shape=[3,3], mean=0, stddev=1.0), name='weights')
+b = tf.zeros(shape=[3, 1], name='bias')
+
+z = tf.add(tf.matmul(W, x), b,'lin_transform')
+sigmoid = tf.sigmoid(z, 'sigmoid')
+
+init_op = tf.global_variables_initializer()
+with tf.Session() as sess:
+    sess.run(init_op)
+    writer = tf.summary.FileWriter('logistic_reg', sess.graph)
+    #x, W, z, sigmoid = sess.run(x, )
+
+writer.close()
